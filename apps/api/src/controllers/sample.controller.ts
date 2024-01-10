@@ -17,7 +17,7 @@ export class SampleController {
 
     if (!sample) {
       return res.send(404);
-    }
+    } 
 
     return res.status(200).send(sample);
   }
