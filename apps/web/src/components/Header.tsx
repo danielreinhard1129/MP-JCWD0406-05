@@ -4,7 +4,7 @@ import Link from 'next/link';
 import React, { useState, useEffect } from 'react';
 import { AiOutlineMenu, AiOutlineClose } from 'react-icons/ai';
 
-const Navbar: React.FC = () => {
+const Navbar = () => {
   const [nav, setNav] = useState(false);
   const [color, setColor] = useState<string>('transparent');
   const [textColor, setTextColor] = useState<string>('white');
@@ -15,12 +15,14 @@ const Navbar: React.FC = () => {
 
   useEffect(() => {
     const changeColor = () => {
-      if (window.scrollY >= 90) {
-        setColor('#ffffff');
-        setTextColor('#000000');
-      } else {
-        setColor('transparent');
-        setTextColor('#ffffff');
+      if (typeof window !== 'undefined') {
+        if (window.scrollY >= 90) {
+          setColor('#ffffff');
+          setTextColor('#000000');
+        } else {
+          setColor('transparent');
+          setTextColor('#ffffff');
+        }
       }
     };
     window.addEventListener('scroll', changeColor);
@@ -29,7 +31,7 @@ const Navbar: React.FC = () => {
     return () => {
       window.removeEventListener('scroll', changeColor);
     };
-  }, []);
+  }, [window.scrollY]);
 
   return (
     <div

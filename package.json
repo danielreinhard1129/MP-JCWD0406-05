@@ -13,6 +13,7 @@
   "devDependencies": {
     "@commitlint/cli": "^18.4.2",
     "@commitlint/config-conventional": "^18.4.2",
+    "@types/jsonwebtoken": "^9.0.5",
     "autoprefixer": "^10.4.16",
     "eslint": "^8.48.0",
     "husky": "^8.0.0",
@@ -35,7 +36,9 @@
     }
   },
   "dependencies": {
+    "@types/react": "^18.2.48",
     "axios": "^1.6.5",
+    "bcrypt": "^5.1.1",
     "cloudinary": "^1.41.2",
     "date-fns": "^3.2.0",
     "dotenv": "^16.3.1",
