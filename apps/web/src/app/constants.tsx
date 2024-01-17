@@ -41,7 +41,7 @@ export const events = [
   },
   {
     id: 4,
-    title: 'Event 4',
+    title: 'Event 5',
     description: 'Description for Event 4',
     image:
       'https://images.unsplash.com/photo-1501281668745-f7f57925c3b4?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D.com/503/503', // Placeholder image URL
