@@ -1,17 +1,43 @@
 'use client';
 
+import { baseUrl } from '@/app/baseUrl/baseUrl';
+import { useAppDispatch, useAppSelector } from '@/lib/hooks';
 import Link from 'next/link';
 import React, { useState, useEffect } from 'react';
 import { AiOutlineMenu, AiOutlineClose } from 'react-icons/ai';
+import axios from 'axios';
+import DropdownMenu from './DropDownMenu';
+import { loginAction } from '@/lib/feature/userSlice';
 
 const Navbar = () => {
   const [nav, setNav] = useState(false);
   const [color, setColor] = useState<string>('transparent');
   const [textColor, setTextColor] = useState<string>('white');
+  const dispatch = useAppDispatch();
+
+  const user = useAppSelector((state) => state.user);
 
   const handleNav = () => {
     setNav(!nav);
   };
+
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+
+    const keepLogin = async () => {
+      try {
+        const { data } = await axios.get(baseUrl + '/api/keeplogin', {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        dispatch(loginAction(data.data));
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    keepLogin();
+  }, []);
 
   useEffect(() => {
     const changeColor = () => {
@@ -48,15 +74,21 @@ const Navbar = () => {
           <li className="p-4">
             <Link href="/">Home</Link>
           </li>
-          <li className="p-4">
-            <Link href="/find_event">Find Event</Link>
-          </li>
-          <li className="p-4">
-            <Link href="/login">Login</Link>
-          </li>
-          <li className="p-4">
-            <Link href="/register">Register</Link>
-          </li>
+          {user.id ? (
+            <DropdownMenu />
+          ) : (
+            <>
+              <li className="p-4">
+                <Link href="/find_event">Find Event</Link>
+              </li>
+              <li className="p-4">
+                <Link href="/login">Login</Link>
+              </li>
+              <li className="p-4">
+                <Link href="/register">Register</Link>
+              </li>
+            </>
+          )}
         </ul>
 
         {/* Mobile Button */}

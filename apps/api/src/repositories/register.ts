@@ -17,5 +17,8 @@ export const registerRepo = async (data: IUser, refferalNumber: string) => {
     return result;
   } catch (error) {
     throw error;
+  } finally {
+    // Disconnect dari Prisma setelah selesai
+    await prisma.$disconnect();
   }
 };

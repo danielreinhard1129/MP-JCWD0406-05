@@ -8,8 +8,5 @@ export const findUserByEmail = async (email: string) => {
     return result;
   } catch (error) {
     console.log(error);
-  } finally {
-    // Disconnect dari Prisma setelah selesai
-    await prisma.$disconnect();
   }
 };

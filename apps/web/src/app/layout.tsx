@@ -20,11 +20,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <div>
-        <Navbar />
         <StoreProvider>
+          <Navbar />
           <main className="">{children}</main>
+          <Footer />
         </StoreProvider>
-        <Footer />
       </div>
     </html>
   );
