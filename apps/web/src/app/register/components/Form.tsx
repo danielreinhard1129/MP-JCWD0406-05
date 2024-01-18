@@ -18,7 +18,8 @@ const validationSchema = yup.object().shape({
   username: yup
     .string()
     .required('Username cannot be empty')
-    .matches(/^[a-z]+$/, 'Username must contain only lowercase letters'),
+    .matches(/^[a-z]+$/, 'Username must contain only lowercase letters')
+    .matches(/^\S*$/, 'Username cannot contain spaces'),
   email: yup
     .string()
     .required('Email cannot be empty')
@@ -155,7 +156,7 @@ const Form = () => {
             value={formik.values.password}
             onBlur={formik.handleBlur}
           />
-          <button onClick={handleClick}>
+          <button onClick={handleClick} type="button">
             <FontAwesomeIcon icon={show ? faEye : faEyeSlash} />
           </button>
           {formik.errors.password && formik.touched.password && (
@@ -178,7 +179,7 @@ const Form = () => {
             onBlur={formik.handleBlur}
           />
 
-          <button onClick={() => setShowConfirm(!showConfirm)}>
+          <button onClick={() => setShowConfirm(!showConfirm)} type="button">
             <FontAwesomeIcon icon={showConfirm ? faEye : faEyeSlash} />
           </button>
 

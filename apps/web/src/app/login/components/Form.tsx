@@ -87,7 +87,7 @@ const Form = () => {
             value={formik.values.password}
             onBlur={formik.handleBlur}
           />
-          <button onClick={handleClick}>
+          <button onClick={handleClick} type="button">
             <FontAwesomeIcon icon={show ? faEye : faEyeSlash} />
           </button>
           {formik.errors.password && formik.touched.password && (
