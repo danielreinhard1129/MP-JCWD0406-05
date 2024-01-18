@@ -1,13 +1,17 @@
 'use client';
-import React from 'react';
+import React, { useEffect } from 'react';
 import LoginCard from './components/LoginCard';
 import { useAppSelector } from '@/lib/hooks';
-import { redirect } from 'next/navigation';
-const Register = () => {
+import { useRouter } from 'next/navigation';
+
+const Login = () => {
+  const router = useRouter();
   const user = useAppSelector((state) => state.user);
-  if (user) {
-    redirect('/');
-  }
+  useEffect(() => {
+    if (user?.id) {
+      router.push('/');
+    }
+  }, [user, router]);
   return (
     <main className="container max-w-7xl px-4 mx-auto">
       <section className="mt-20 flex items-center justify-center md: mt-32">
@@ -17,4 +21,4 @@ const Register = () => {
   );
 };
 
-export default Register;
+export default Login;
