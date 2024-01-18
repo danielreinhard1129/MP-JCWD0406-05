@@ -16,7 +16,6 @@ const Navbar = () => {
   const dispatch = useAppDispatch();
 
   const user = useAppSelector((state) => state.user);
-
   const handleNav = () => {
     setNav(!nav);
   };
