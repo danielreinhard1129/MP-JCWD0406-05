@@ -11,94 +11,66 @@ datasource db {
 }
 
 model User {
-  id        Int      @id @default(autoincrement())
-  nama_lengkap String 
-  username      String @unique
-  email         String @unique
-  password      String   
-  point_balance String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  contact Int
-  alamat String
-  refferal_user Refferal_User[]
-refferal_number Refferal_Number[]
-  role Role[]
-  @@map("samples") // if you want to use snake_case format
+  id              Int      @id @default(autoincrement())
+  nama_lengkap    String
+  username        String   @unique
+  email           String   @unique
+  password        String
+  refferal_number String
+  contact         Int      @default(62)
+  alamat          String   @default("")
+  point_balance   Int      @default(0)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  roleId          Int
+  role            Role     @relation(fields: [roleId], references: [id])
 }
 
-model Refferal_Number { 
-  id        Int      @id @default(autoincrement())
-  userId Int 
-  users User @relation(fields: [userId] , references: [id])
-  point_earned  Int
-  point_expired_date DateTime 
-  refferalUser Refferal_User[]
+model Role {
+  id    Int    @id @default(autoincrement())
+  role  String
+  users User[]
 }
 
-model Refferal_User { 
-  id Int      @id @default(autoincrement())
-  userId Int
-  user User @relation(fields: [userId] , references: [id])
-  refferalId Int
-  refferalNumber Refferal_Number @relation(fields: [refferalId], references: [id])
-
-}
-model Role{
-  id    Int      @id @default(autoincrement())
-   userId Int 
-  users User @relation(fields: [userId] , references: [id])
-}
-
-// model Review { 
-//   id    Int      @id @default(autoincrement())
-//   eventId 
-// }
-
-
-model Promotor { 
-  id Int  @id @default(autoincrement())
-  name String @unique
-  email String @unique
+model Promotor {
+  id        Int     @id @default(autoincrement())
+  name      String  @unique
+  email     String  @unique
   deskripsi String
-  nohp Int @unique
-  event Event[]
+  nohp      Int     @unique
+  event     Event[]
 }
 
-
-model Event { 
-  id Int  @id @default(autoincrement())
-  promotorId Int
-  event Promotor @relation(fields: [promotorId], references: [id])
-  event_name String
-  price Int
-  dateTime DateTime
-  location String
-  description String
+model Event {
+  id            Int             @id @default(autoincrement())
+  promotorId    Int
+  event         Promotor        @relation(fields: [promotorId], references: [id])
+  event_name    String
+  price         Int
+  dateTime      DateTime
+  location      String
+  description   String
   avaliableSeat Int
-  banner String
-  category String
-  createdAt DateTime @default(now())
-  updatedAt  DateTime @updatedAt
+  banner        String
+  category      String
+  createdAt     DateTime        @default(now())
+  updatedAt     DateTime        @updatedAt
   type_category Type_Category[]
   eventCategory EventCategory[]
-} 
-
-model Type_Category { 
-    id Int  @id @default(autoincrement())
-    eventId Int
-    event Event @relation(fields: [eventId], references: [id])
-    name_category String
-    eventCategory EventCategory[]
 }
 
-model EventCategory{ 
- id Int  @id @default(autoincrement())
- typeCategoryId Int
- type_category Type_Category @relation(fields: [typeCategoryId], references: [id])
- eventId  Int
- event Event @relation(fields: [eventId], references: [id])
-
+model Type_Category {
+  id            Int             @id @default(autoincrement())
+  eventId       Int
+  event         Event           @relation(fields: [eventId], references: [id])
+  name_category String
+  eventCategory EventCategory[]
 }
 
-
+model EventCategory {
+  id             Int           @id @default(autoincrement())
+  typeCategoryId Int
+  type_category  Type_Category @relation(fields: [typeCategoryId], references: [id])
+  eventId        Int
+  event          Event         @relation(fields: [eventId], references: [id])
+}
