@@ -2,20 +2,21 @@ import { createSlice } from '@reduxjs/toolkit';
 
 import type { PayloadAction } from '@reduxjs/toolkit/dist/createAction';
 import { RootState } from '../store';
+import { stat } from 'fs';
 // Define a type for the slice state
 export interface UserState {
   id: number;
-  name: string;
+  nama_lengkap: string;
   email: string;
-  isVerified: boolean;
+  roleId: number;
 }
 
 // Define the initial state using that type
 const initialState: UserState = {
   id: 0,
-  name: '',
+  nama_lengkap: '',
   email: '',
-  isVerified: false,
+  roleId: 0,
 };
 
 export const userSlice = createSlice({
@@ -25,16 +26,16 @@ export const userSlice = createSlice({
   reducers: {
     loginAction: (state, action: PayloadAction<UserState>) => {
       state.id = action.payload.id;
-      state.name = action.payload.name;
+      state.nama_lengkap = action.payload.nama_lengkap;
       state.email = action.payload.email;
-      state.isVerified = action.payload.isVerified;
+      state.roleId = action.payload.roleId;
     },
 
     logoutAction: (state) => {
       state.id = 0;
-      state.name = '';
+      state.nama_lengkap = '';
       state.email = '';
-      state.isVerified = false;
+      state.roleId = 0;
     },
   },
 });

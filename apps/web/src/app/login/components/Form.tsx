@@ -8,7 +8,6 @@ import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 import { useRouter } from 'next/navigation';
 import * as yup from 'yup';
 import { useState } from 'react';
-import { useDispatch } from 'react-redux';
 import { useAppDispatch } from '@/lib/hooks';
 import { loginAction } from '@/lib/feature/userSlice';
 
@@ -38,7 +37,6 @@ const Form = () => {
           email: values.email,
           password: values.password,
         });
-        console.log(data);
 
         dispatch(loginAction(data.data));
         localStorage.setItem('token', data.token);

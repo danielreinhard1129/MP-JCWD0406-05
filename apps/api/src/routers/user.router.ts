@@ -1,4 +1,5 @@
 import { EventController } from '@/controllers/users.controllers';
+import { verifyToken } from '@/middleware/jwtVerifyToken';
 import { Router } from 'express';
 
 export class EventRouter {
@@ -14,6 +15,7 @@ export class EventRouter {
   private initializeRoutes(): void {
     this.router.post('/register', this.eventController.RegisterController);
     this.router.post('/login', this.eventController.LoginController);
+    this.router.get('/keeplogin', verifyToken, this.eventController.KeepLogin);
   }
 
   getRouter(): Router {

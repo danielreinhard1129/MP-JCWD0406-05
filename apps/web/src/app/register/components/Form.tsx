@@ -53,7 +53,6 @@ const Form = () => {
       email: '',
       password: '',
       confirmPassword: '',
-
       role: '',
     },
     // validationSchema,
