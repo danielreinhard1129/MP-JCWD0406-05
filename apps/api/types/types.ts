@@ -11,3 +11,8 @@ export interface IUser {
   contact: number;
   alamat: string;
 }
+
+export interface IData {
+  password: any;
+  confirmPassword: any;
+}

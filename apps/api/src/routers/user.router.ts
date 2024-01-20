@@ -16,6 +16,12 @@ export class EventRouter {
     this.router.post('/register', this.eventController.RegisterController);
     this.router.post('/login', this.eventController.LoginController);
     this.router.get('/keeplogin', verifyToken, this.eventController.KeepLogin);
+    this.router.post('/forgot-password', this.eventController.ForgotPassword);
+    this.router.patch(
+      '/reset-password',
+      verifyToken,
+      this.eventController.ResetPassword,
+    );
   }
 
   getRouter(): Router {
