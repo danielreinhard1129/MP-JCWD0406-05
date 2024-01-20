@@ -1,11 +1,10 @@
 'use client';
 import React, { useState } from 'react';
-import { Button, Checkbox, Label, TextInput } from 'flowbite-react';
 
-import Form from './Form';
 import Link from 'next/link';
+import FormReset from './FormReset';
 
-const RegisterCard = () => {
+const CardForgotPassword = () => {
   return (
     <div className="min-h-screen py-40">
       <div className="container mx-auto">
@@ -19,14 +18,11 @@ const RegisterCard = () => {
             </h1>
           </div>
           <div className="w-full lg:w-1/2 py-16 px-12">
-            <h2 className="text-3xl mb-4 font-extrabold ">Register</h2>
-            <p className="mb-4">
-              Create your account. It’s free and only take a minute
-            </p>
-            <Link href="/login" className="text-blue-600 font-semibold mb-2">
-              Sign?
-            </Link>
-            <Form />
+            <h2 className="text-3xl mb-4 font-extrabold ">
+              Reset Your Password
+            </h2>
+
+            <FormReset />
           </div>
         </div>
       </div>
@@ -34,4 +30,4 @@ const RegisterCard = () => {
   );
 };
 
-export default RegisterCard;
+export default CardForgotPassword;

@@ -24,17 +24,8 @@ const validationSchema = yup.object().shape({
     .string()
     .required('Email cannot be empty')
     .matches(/@/, 'Invalid Email, must contain "@"'),
-  password: yup
-    .string()
-    .required('Password cannot be empty')
-    .test(
-      'hasUppercaseAndNumber',
-      'Password must have at least one uppercase letter and one number',
-      function (value) {
-        // Logika untuk memeriksa apakah password memiliki setidaknya satu huruf besar dan satu angka
-        return /^(?=.*[A-Z])(?=.*\d).*$/.test(value);
-      },
-    ),
+  password: yup.string().required('Password cannot be empty'),
+
   confirmPassword: yup
     .string()
     .oneOf([yup.ref('password'), undefined], 'Password must match')
