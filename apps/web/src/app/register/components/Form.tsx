@@ -210,7 +210,7 @@ const Form = () => {
           value={formik.values.role}
         >
           <option value="customer">Customer</option>
-          <option value="organizer">Organizer</option>
+          <option value="organizer">Organizerr</option>
         </select>
       </div>
       {/*  */}
