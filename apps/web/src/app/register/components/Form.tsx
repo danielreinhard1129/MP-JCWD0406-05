@@ -37,7 +37,20 @@ const Form = () => {
   const [showConfirm, setShowConfirm] = useState(false);
   const [refferalCode, setRefferalCode] = useState('');
   const handleClick = () => setShow(!show);
+  const checkRefferal = async () => {
+    try {
+      await axios.post('http://localhost:8000/api/verify-refferal', {
+        refferal_number: refferalCode,
+      });
 
+      alert('Refferal exist');
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        const errorMsg = error.response?.data.message || error.message;
+        alert(errorMsg);
+      }
+    }
+  };
   const formik = useFormik({
     initialValues: {
       nama_lengkap: '',
@@ -76,20 +89,7 @@ const Form = () => {
     },
     validationSchema,
   });
-  const checkRefferal = async () => {
-    try {
-      await axios.post('http://localhost:8000/api/verify-refferal', {
-        refferal_number: refferalCode,
-      });
 
-      alert('Refferal exist');
-    } catch (error) {
-      if (error instanceof AxiosError) {
-        const errorMsg = error.response?.data.message || error.message;
-        alert(errorMsg);
-      }
-    }
-  };
   return (
     <form
       className="flex flex-col gap-4 justify-center "
@@ -222,7 +222,6 @@ const Form = () => {
           name="refferal_number"
           type="text"
           placeholder="Check Refferal"
-          required
           onChange={(e) => setRefferalCode(e.target.value)}
           value={refferalCode}
         />
