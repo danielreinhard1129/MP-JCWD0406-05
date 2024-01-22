@@ -10,6 +10,7 @@ export interface IUser {
   updatedAt: Date;
   contact: number;
   alamat: string;
+  refferal_number: string;
 }
 
 export interface IData {

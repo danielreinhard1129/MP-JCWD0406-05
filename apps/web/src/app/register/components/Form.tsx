@@ -35,7 +35,7 @@ const Form = () => {
   const router = useRouter();
   const [show, setShow] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
-
+  const [refferalCode, setRefferalCode] = useState('');
   const handleClick = () => setShow(!show);
 
   const formik = useFormik({
@@ -46,6 +46,7 @@ const Form = () => {
       password: '',
       confirmPassword: '',
       role: '',
+      refferal_number: '',
     },
     // validationSchema,
     onSubmit: async (values) => {
@@ -62,6 +63,7 @@ const Form = () => {
           email: values.email,
           password: values.password,
           roleId,
+          refferal_number: refferalCode,
         }),
           alert('Register success'),
           router.push('/login');
@@ -74,6 +76,20 @@ const Form = () => {
     },
     validationSchema,
   });
+  const checkRefferal = async () => {
+    try {
+      await axios.post('http://localhost:8000/api/verify-refferal', {
+        refferal_number: refferalCode,
+      });
+
+      alert('Refferal exist');
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        const errorMsg = error.response?.data.message || error.message;
+        alert(errorMsg);
+      }
+    }
+  };
   return (
     <form
       className="flex flex-col gap-4 justify-center "
@@ -197,7 +213,28 @@ const Form = () => {
           <option value="organizer">Organizer</option>
         </select>
       </div>
-
+      {/*  */}
+      <div>
+        <div className="mb-2 block">
+          <Label htmlFor="fullname" value="Refferal Number" />
+        </div>
+        <TextInput
+          name="refferal_number"
+          type="text"
+          placeholder="Check Refferal"
+          required
+          onChange={(e) => setRefferalCode(e.target.value)}
+          value={refferalCode}
+        />
+        <div className="flex justify-end mt-2">
+          <button
+            onClick={checkRefferal}
+            className="px-4 py-2 bg-blue-500 text-white rounded-md"
+          >
+            Check Refferal
+          </button>
+        </div>
+      </div>
       <div className="flex items-center gap-2">
         <Checkbox id="remember" />
         <Label htmlFor="remember">Remember me</Label>
