@@ -16,20 +16,48 @@ model User {
   username        String   @unique
   email           String   @unique
   password        String
-  refferal_number String
+  refferal_number String   @unique
   contact         Int      @default(62)
   alamat          String   @default("")
-  point_balance   Int      @default(0)
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
   roleId          Int
   role            Role     @relation(fields: [roleId], references: [id])
+  Point           Point[]
+
+  UserReward UserReward[]
 }
 
 model Role {
   id    Int    @id @default(autoincrement())
   role  String
   users User[]
+}
+
+model Point {
+  id      Int      @id @default(autoincrement())
+  userId  Int
+  amount  Int      @default(0) // Jumlah poin yang diperoleh, default diatur ke 0
+  expired DateTime
+  user    User     @relation(fields: [userId], references: [id])
+}
+
+model UserReward {
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  rewardId  Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  expired   DateTime
+  user      User     @relation(fields: [userId], references: [id])
+  reward    Reward   @relation(fields: [rewardId], references: [id])
+}
+
+model Reward {
+  id         Int          @id @default(autoincrement())
+  title      String
+  percantage Int
+  UserReward UserReward[]
 }
 
 model Promotor {

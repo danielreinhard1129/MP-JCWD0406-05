@@ -22,6 +22,8 @@ export class EventRouter {
       verifyToken,
       this.eventController.ResetPassword,
     );
+
+    this.router.post('/verify-refferal', this.eventController.GetRefferalCode);
   }
 
   getRouter(): Router {

@@ -1,6 +1,7 @@
 import { forgotPasswordAction } from '@/actions/forgotpassword.action';
 import { keepLoginAction } from '@/actions/keepLogin.action';
 import { loginAction } from '@/actions/login.action';
+import { findRefferal } from '@/actions/refferal/findRefferalUser';
 import { registerAction } from '@/actions/register.action';
 import { resetPasswordAction } from '@/actions/resetpassword.action';
 
@@ -9,7 +10,8 @@ import { NextFunction, Request, Response } from 'express';
 export class EventController {
   async RegisterController(req: Request, res: Response, next: NextFunction) {
     try {
-      const result = await registerAction(req.body);
+      const codeRefferal = req.body.refferal_number;
+      const result = await registerAction(req.body, codeRefferal);
       res.status(result.status).send(result);
     } catch (error) {
       next(error);
@@ -52,6 +54,19 @@ export class EventController {
       const email = req.body.user!.email;
 
       const result = await resetPasswordAction(email, req.body);
+      res.status(result.status).send(result);
+    } catch (error) {
+      next(error);
+      throw error;
+    }
+  }
+
+  //Refferal number get checking
+  async GetRefferalCode(req: Request, res: Response, next: NextFunction) {
+    try {
+      const refferal = req.body.refferal_number;
+
+      const result = await findRefferal(refferal);
       res.status(result.status).send(result);
     } catch (error) {
       next(error);
