@@ -9,7 +9,7 @@ const Login = () => {
   const user = useAppSelector((state) => state.user);
   useEffect(() => {
     if (user?.id) {
-      router.push('/');
+      router.replace('/');
     }
   }, [user, router]);
   return (
