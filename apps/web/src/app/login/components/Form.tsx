@@ -41,7 +41,7 @@ const Form = () => {
 
         dispatch(loginAction(data.data));
         localStorage.setItem('token', data.token);
-        router.push('/');
+        router.replace('/');
       } catch (error) {
         if (error instanceof AxiosError) {
           const errorMsg = error.response?.data.message || error.message;

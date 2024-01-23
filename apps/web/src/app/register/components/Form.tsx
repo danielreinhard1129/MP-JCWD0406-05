@@ -79,7 +79,7 @@ const Form = () => {
           refferal_number: refferalCode,
         }),
           alert('Register success'),
-          router.push('/login');
+          router.replace('/login');
       } catch (error) {
         if (error instanceof AxiosError) {
           const errorMsg = error.response?.data.message || error.message;
@@ -213,7 +213,7 @@ const Form = () => {
           <option value="organizer">Organizer</option>
         </select>
       </div>
-      {/*  */}
+
       <div>
         <div className="mb-2 block">
           <Label htmlFor="fullname" value="Refferal Number" />
