@@ -1,9 +1,9 @@
-import { events } from '@/app/constants';
 import { Card } from 'flowbite-react';
 import Image from 'next/image';
 import dayjs from 'dayjs';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
 import utc from 'dayjs/plugin/utc';
+import { events } from '@/app/contans';
 
 dayjs.extend(customParseFormat);
 dayjs.extend(utc);
@@ -16,7 +16,11 @@ export default function UpcomingEvent() {
         // Format the date according to the given example
         const formattedDate = date.format('ddd, MMM D • h:mm A [GMT]Z');
         return (
-          <Card key={event.id} className="bg-white rounded shadow p-1 relative">
+          <Card
+            key={event.id}
+            href="/event-detail"
+            className="bg-white rounded shadow p-1 relative"
+          >
             <Image
               src={event.image}
               width={500}

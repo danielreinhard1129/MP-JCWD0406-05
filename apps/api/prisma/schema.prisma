@@ -25,7 +25,9 @@ model User {
   role            Role     @relation(fields: [roleId], references: [id])
   Point           Point[]
 
-  UserReward UserReward[]
+  UserReward  UserReward[]
+  Event       Event[]
+  Transaction Transaction[]
 }
 
 model Role {
@@ -36,21 +38,22 @@ model Role {
 
 model Point {
   id      Int      @id @default(autoincrement())
-  userId  Int
+  userId  Int      @unique
   amount  Int      @default(0) // Jumlah poin yang diperoleh, default diatur ke 0
   expired DateTime
   user    User     @relation(fields: [userId], references: [id])
 }
 
 model UserReward {
-  id        Int      @id @default(autoincrement())
-  userId    Int
-  rewardId  Int
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  expired   DateTime
-  user      User     @relation(fields: [userId], references: [id])
-  reward    Reward   @relation(fields: [rewardId], references: [id])
+  id                      Int                       @id @default(autoincrement())
+  userId                  Int
+  rewardId                Int
+  createdAt               DateTime                  @default(now())
+  updatedAt               DateTime                  @updatedAt
+  expired                 DateTime
+  user                    User                      @relation(fields: [userId], references: [id])
+  reward                  Reward                    @relation(fields: [rewardId], references: [id])
+  Transaction_user_reward Transaction_user_reward[]
 }
 
 model Reward {
@@ -60,45 +63,61 @@ model Reward {
   UserReward UserReward[]
 }
 
-model Promotor {
-  id        Int     @id @default(autoincrement())
-  name      String  @unique
-  email     String  @unique
-  deskripsi String
-  nohp      Int     @unique
-  event     Event[]
-}
-
 model Event {
-  id            Int             @id @default(autoincrement())
-  promotorId    Int
-  event         Promotor        @relation(fields: [promotorId], references: [id])
-  event_name    String
-  price         Int
-  dateTime      DateTime
-  location      String
-  description   String
-  avaliableSeat Int
-  banner        String
-  category      String
-  createdAt     DateTime        @default(now())
-  updatedAt     DateTime        @updatedAt
-  type_category Type_Category[]
-  eventCategory EventCategory[]
+  id          Int           @id @default(autoincrement())
+  tittle      String
+  description String
+  price       Int
+  locationId  Int
+  startDate   DateTime
+  endDate     DateTime
+  limit       Int
+  booked      Int
+  banner      String
+  category    Int
+  userId      Int
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+  user        User          @relation(fields: [userId], references: [id])
+  location    Location      @relation(fields: [locationId], references: [id])
+  Transaction Transaction[]
 }
 
-model Type_Category {
-  id            Int             @id @default(autoincrement())
-  eventId       Int
-  event         Event           @relation(fields: [eventId], references: [id])
-  name_category String
-  eventCategory EventCategory[]
+model Location {
+  id        Int      @id @default(autoincrement())
+  city      String
+  country   String
+  createdAt DateTime @default(now())
+  Event     Event[]
 }
 
-model EventCategory {
-  id             Int           @id @default(autoincrement())
-  typeCategoryId Int
-  type_category  Type_Category @relation(fields: [typeCategoryId], references: [id])
-  eventId        Int
-  event          Event         @relation(fields: [eventId], references: [id])
+model Category {
+  id     Int    @id @default(autoincrement())
+  tittle String
+}
+
+model Transaction {
+  id                      Int                       @id @default(autoincrement())
+  uuid                    String                    @unique @default(uuid())
+  userId                  Int
+  eventId                 Int
+  qty                     Int                       @default(0)
+  total                   Int                       @default(0)
+  paymentProof            String                    @default("")
+  points                  Int                       @default(0)
+  createdAt               DateTime                  @default(now())
+  updatedAt               DateTime                  @updatedAt
+  user                    User                      @relation(fields: [userId], references: [id])
+  event                   Event                     @relation(fields: [eventId], references: [id])
+  Transaction_user_reward Transaction_user_reward[]
+}
+
+model Transaction_user_reward {
+  id            Int         @id @default(autoincrement())
+  userRewardId  Int
+  transactionId Int
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+  user          UserReward  @relation(fields: [userRewardId], references: [id])
+  transaction   Transaction @relation(fields: [transactionId], references: [id])
 }
