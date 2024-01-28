@@ -24,6 +24,9 @@ export class EventRouter {
     );
 
     this.router.post('/verify-refferal', this.eventController.GetRefferalCode);
+    this.router.get('/event', this.eventController.getAllEvent);
+    this.router.post('/claim-point', this.eventController.claimReward);
+    this.router.get('/get-point/:id', this.eventController.findPointById);
   }
 
   getRouter(): Router {

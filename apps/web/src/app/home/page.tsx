@@ -1,4 +1,5 @@
-import React from 'react';
+'use client';
+import React, { useEffect, useState } from 'react';
 import LandingPage from './component/Jumbotron';
 import UpcomingEvent from './component/UpcomingEvent';
 
