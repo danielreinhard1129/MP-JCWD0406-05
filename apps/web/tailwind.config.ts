@@ -23,7 +23,14 @@ module.exports = {
     '../../node_modules/flowbite-react/lib/esm/**/*.js',
   ],
   theme: {
-    extend: {},
+    extend: {
+      gridTemplateColumns: {
+        sidebar: '300px auto', // 👈 for sidebar layout. adds grid-cols-sidebar class
+      },
+      gridTemplateRows: {
+        header: '64px auto', // 👈 for the navbar layout. adds grid-rows-header class
+      },
+    },
     colors: {
       primary: '#580713',
       secondary: '#8D0A1F',

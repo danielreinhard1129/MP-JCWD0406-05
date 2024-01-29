@@ -27,6 +27,12 @@ export class EventRouter {
     this.router.get('/event', this.eventController.getAllEvent);
     this.router.post('/claim-point', this.eventController.claimReward);
     this.router.get('/get-point/:id', this.eventController.findPointById);
+
+    // transaction
+    this.router.post('/userId', this.eventController.getTransactionByuserId);
+    this.router.patch('/success', this.eventController.proofTransaction);
+    this.router.patch('/failed', this.eventController.failedTransaction);
+    this.router.get('/bydate', this.eventController.getTransactionsByDate);
   }
 
   getRouter(): Router {

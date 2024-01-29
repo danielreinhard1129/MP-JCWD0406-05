@@ -7,6 +7,7 @@ import { useRouter } from 'next/navigation';
 
 function DropdownMenu() {
   const dispatch = useAppDispatch();
+  const user = useAppSelector((state) => state.user.roleId);
   const router = useRouter();
   const handleLogout = () => {
     localStorage.removeItem('token');
@@ -18,7 +19,10 @@ function DropdownMenu() {
       <Dropdown.Header>
         <span className="block text-sm">Check my profile</span>
       </Dropdown.Header>
-      <Dropdown.Item href="/profile">My Profile</Dropdown.Item>
+
+      <Dropdown.Item href={user == 2 ? '/admin' : '/profile'}>
+        Profile
+      </Dropdown.Item>
       <Dropdown.Divider />
       <Dropdown.Item onClick={handleLogout}>Sign out</Dropdown.Item>
     </Dropdown>

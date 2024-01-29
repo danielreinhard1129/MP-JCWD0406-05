@@ -38,7 +38,7 @@ const SidebarPromoter = ({ activeLink }: any) => {
               Transactions
             </Sidebar.Item>
             <Sidebar.Item
-              href="/promoters/analytics"
+              href="/admin/analytics"
               icon={MdAnalytics}
               active={activeLink === 'analytics'}
             >

@@ -7,6 +7,10 @@ import { registerAction } from '@/actions/register.action';
 import { resetPasswordAction } from '@/actions/resetpassword.action';
 import { findpointaction } from '@/actions/reward/findpointbyid';
 import { claimRewardAction } from '@/actions/reward/reward';
+import { proofTransactionAction } from '@/actions/transaction/transaction';
+import { getTransactionsByDateAction } from '@/actions/transaction/transactionDate';
+import { getTransactionByUserIdAction } from '@/actions/transaction/transaksiById';
+import { failedTransactionAction } from '@/actions/transaction/transaksiFailed';
 // import { totalPoint } from '@/actions/transaction/totalpoint';
 
 import { NextFunction, Request, Response } from 'express';
@@ -104,6 +108,48 @@ export class EventController {
     } catch (error) {
       next(error);
       throw error;
+    }
+  }
+  // Transaction
+
+  async getTransactionByuserId(
+    req: Request,
+    res: Response,
+    next: NextFunction,
+  ) {
+    try {
+      const userId = req.body.userId;
+      const result = await getTransactionByUserIdAction(userId);
+      return res.status(result.status).send(result);
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async proofTransaction(req: Request, res: Response, next: NextFunction) {
+    try {
+      const result = await proofTransactionAction(req.body);
+      return res.status(result.status).send(result);
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async failedTransaction(req: Request, res: Response, next: NextFunction) {
+    try {
+      const result = await failedTransactionAction(req.body);
+      return res.status(result.status).send(result);
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async getTransactionsByDate(req: Request, res: Response, next: NextFunction) {
+    try {
+      const result = await getTransactionsByDateAction();
+      return res.status(result.status).send(result);
+    } catch (error) {
+      next(error);
     }
   }
 }

@@ -3,13 +3,15 @@ import Transaction from './CardTransaction';
 import { useEffect, useState } from 'react';
 import { baseUrl } from '@/app/baseUrl/baseUrl';
 import axios from 'axios';
-import { User } from '@/types/types.user';
+import { IUser } from '@/types/types.user';
 import { Avatar } from 'flowbite-react';
 
 const ProfileCard: React.FC = () => {
-  const [dataPerson, setDataPerson] = useState<User>();
+  const [dataPerson, setDataPerson] = useState<IUser>();
   const [showModal, setShowModal] = useState(false);
   console.log('ini data', dataPerson);
+
+  useEffect(() => {});
 
   useEffect(() => {
     const token = localStorage.getItem('token');

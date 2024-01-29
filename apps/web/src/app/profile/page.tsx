@@ -6,11 +6,12 @@ import { useEffect } from 'react';
 import ProfileCard from './components/ProfileCard';
 
 const Login = () => {
-  const router = useRouter();
-
   const token = localStorage.getItem('token');
+  const router = useRouter();
+  const user = useAppSelector((state) => state.user);
+
   useEffect(() => {
-    if (!token) {
+    if (!token || user.roleId == 2) {
       router.replace('/');
     }
   });

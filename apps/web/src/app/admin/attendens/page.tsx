@@ -1,22 +1,120 @@
 'use client';
 
-import { Table } from 'flowbite-react';
 import { FaSearch } from 'react-icons/fa';
+import { Button, Modal, Table } from 'flowbite-react';
+import { useState } from 'react';
+import { HiOutlineExclamationCircle } from 'react-icons/hi';
 import SidebarPromoter from '../components/SideBar';
 
-const Attendees = () => {
-  return (
-    <div className="flex w-full">
-      <SidebarPromoter activeLink={'attendees'} />
+const Transactions = () => {
+  const [transactions, setTransactions] = useState([
+    {
+      id: 52,
+      customer: 'Anggi',
+      event: 'Taylor Swift Concert',
+      quantity: 1,
+      total: '$422',
+      status: 'Transaction Success',
+    },
+    {
+      id: 53,
+      customer: 'Budi',
+      event: 'Ed Sheeran Concert',
+      quantity: 2,
+      total: '$800',
+      status: 'Waiting Admin Confirmation',
+    },
+    {
+      id: 54,
+      customer: 'Citra',
+      event: 'Coldplay Concert',
+      quantity: 1,
+      total: '$399',
+      status: 'Waiting Payment',
+    },
+    {
+      id: 55,
+      customer: 'Dewi',
+      event: 'The Weeknd Concert',
+      quantity: 1,
+      total: '$499',
+      status: 'Cancelled Transaction)',
+    },
+    {
+      id: 56,
+      customer: 'Eko',
+      event: 'K-Pop Festival',
+      quantity: 3,
+      total: '$1200',
+      status: 'Expired Transaction',
+    },
+    {
+      id: 57,
+      customer: 'Fina',
+      event: 'Rock in Rio',
+      quantity: 2,
+      total: '$850',
+      status: 'Rejected Transaction',
+    },
+  ]);
 
+  const [openModal, setOpenModal] = useState(false);
+  const [modalAction, setModalAction] = useState<string>('');
+  const [selectedTransactionId, setSelectedTransactionId] = useState(null);
+
+  const handleAccept = (transactionId: any) => {
+    setSelectedTransactionId(transactionId);
+    setModalAction('accept');
+    setOpenModal(true);
+  };
+
+  const handleDecline = (transactionId: any) => {
+    setSelectedTransactionId(transactionId);
+    setModalAction('decline');
+    setOpenModal(true);
+  };
+
+  const confirmDecline = () => {
+    console.log('Declined transaction', selectedTransactionId);
+    // Update the transactions state with the declined transaction
+    setTransactions((currentTransactions) =>
+      currentTransactions.map((transaction) =>
+        transaction.id === selectedTransactionId
+          ? { ...transaction, status: 'Rejected Transaction' }
+          : transaction,
+      ),
+    );
+    setOpenModal(false);
+  };
+
+  const confirmAccept = () => {
+    console.log('Declined transaction', selectedTransactionId);
+    // Update the transactions state with the declined transaction
+    setTransactions((currentTransactions) =>
+      currentTransactions.map((transaction) =>
+        transaction.id === selectedTransactionId
+          ? { ...transaction, status: 'Transaction Success' }
+          : transaction,
+      ),
+    );
+    setOpenModal(false);
+  };
+  // Determine if the Accept and Decline buttons should be displayed for a transaction
+  const shouldShowActions = (status: string) => {
+    return ['Waiting Admin Confirmation'].includes(status);
+  };
+
+  return (
+    <div className="flex w-full ">
+      <SidebarPromoter activeLink={'transactions'} />
       <div className="bg-white p-20 w-full">
         <h1 className="text-3xl md:text-4xl lg:text-6xl font-bold mb-6 leading-tight">
-          Attendees
+          Transactions
         </h1>
         <div className="mt-4 flex mb-10">
           <div className="flex-1">
-            <label htmlFor="search-attendees" className="sr-only">
-              Search attendees
+            <label htmlFor="search-transactions" className="sr-only">
+              Search transactions
             </label>
             <div className="relative">
               <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -27,10 +125,10 @@ const Attendees = () => {
               </div>
               <input
                 type="text"
-                name="search-attendees"
-                id="search-attendees"
+                name="search-transactions"
+                id="search-transactions"
                 className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md leading-5 bg-white placeholder-gray-500 focus:outline-none focus:placeholder-gray-400 focus:ring-1 focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-                placeholder="Search for attendees"
+                placeholder="Search for transactions"
               />
             </div>
           </div>
@@ -39,61 +137,93 @@ const Attendees = () => {
         <div className="overflow-x-auto">
           <Table hoverable>
             <Table.Head>
-              <Table.HeadCell>Email</Table.HeadCell>
+              <Table.HeadCell>ID</Table.HeadCell>
+              <Table.HeadCell>Customer</Table.HeadCell>
+              <Table.HeadCell>Event</Table.HeadCell>
+              <Table.HeadCell>Quantity</Table.HeadCell>
+              <Table.HeadCell>Total</Table.HeadCell>
               <Table.HeadCell>Status</Table.HeadCell>
               <Table.HeadCell>
-                <span className="sr-only">Edit</span>
+                <span className="sr-only">Action</span>
               </Table.HeadCell>
             </Table.Head>
             <Table.Body className="divide-y">
-              <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
-                <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
-                  kittencore@mail.com
-                </Table.Cell>
-                <Table.Cell>Transaction success</Table.Cell>
-                <Table.Cell>
-                  <a
-                    href="#"
-                    className="font-medium text-[#ff4b00] hover:underline dark:text-cyan-500"
-                  >
-                    Edit
-                  </a>
-                </Table.Cell>
-              </Table.Row>
-              <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
-                <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
-                  kittencore@mail.com
-                </Table.Cell>
-                <Table.Cell>Waiting for the payment</Table.Cell>
-                <Table.Cell>
-                  <a
-                    href="#"
-                    className="font-medium text-[#ff4b00] hover:underline dark:text-cyan-500"
-                  >
-                    Edit
-                  </a>
-                </Table.Cell>
-              </Table.Row>
-              <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
-                <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
-                  kittencore@mail.com
-                </Table.Cell>
-                <Table.Cell>Transaction success</Table.Cell>
-                <Table.Cell>
-                  <a
-                    href="#"
-                    className="font-medium text-[#ff4b00] hover:underline dark:text-cyan-500"
-                  >
-                    Edit
-                  </a>
-                </Table.Cell>
-              </Table.Row>
+              {transactions.map((transaction) => (
+                <Table.Row
+                  key={transaction.id}
+                  className="bg-white dark:border-gray-700 dark:bg-gray-800"
+                >
+                  <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
+                    {transaction.id}
+                  </Table.Cell>
+                  <Table.Cell>{transaction.customer}</Table.Cell>
+                  <Table.Cell>{transaction.event}</Table.Cell>
+                  <Table.Cell>{transaction.quantity}</Table.Cell>
+                  <Table.Cell>{transaction.total}</Table.Cell>
+                  <Table.Cell>{transaction.status}</Table.Cell>
+                  <Table.Cell className="flex justify-between">
+                    <Button className="font-medium hover:underline ">
+                      View
+                    </Button>
+                    {shouldShowActions(transaction.status) && (
+                      <>
+                        <Button
+                          className="font-medium hover:underline "
+                          onClick={() => handleAccept(transaction.id)}
+                        >
+                          Accept
+                        </Button>
+
+                        <Button
+                          className="font-medium hover:underline "
+                          onClick={() => handleDecline(transaction.id)}
+                        >
+                          Decline
+                        </Button>
+                      </>
+                    )}
+                  </Table.Cell>
+                </Table.Row>
+              ))}
             </Table.Body>
           </Table>
         </div>
       </div>
+      {openModal && (
+        <Modal
+          show={openModal}
+          size="md"
+          onClose={() => setOpenModal(false)}
+          popup
+        >
+          <Modal.Header />
+          <Modal.Body>
+            <div className="text-center">
+              <HiOutlineExclamationCircle className="mx-auto mb-4 h-14 w-14 text-gray-400 dark:text-gray-200" />
+              <h3 className="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
+                {modalAction === 'accept'
+                  ? 'Are you sure you want to accept this transaction?'
+                  : 'Are you sure you want to decline this transaction?'}
+              </h3>
+              <div className="flex justify-center gap-4">
+                <Button
+                  color={modalAction === 'accept' ? 'success' : 'failure'}
+                  onClick={
+                    modalAction === 'accept' ? confirmAccept : confirmDecline
+                  }
+                >
+                  Yes, I'm sure
+                </Button>
+                <Button color="gray" onClick={() => setOpenModal(false)}>
+                  No, cancel
+                </Button>
+              </div>
+            </div>
+          </Modal.Body>
+        </Modal>
+      )}
     </div>
   );
 };
 
-export default Attendees;
+export default Transactions;
