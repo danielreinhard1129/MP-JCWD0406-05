@@ -1,4 +1,6 @@
-export interface User {
+import { number, string } from 'yup';
+
+export interface IUser {
   id: number;
   nama_lengkap: string;
   username: string;
@@ -11,17 +13,17 @@ export interface User {
   updatedAt: Date;
   roleId: number;
   role: Role[];
-  Point: Point[];
+  Point: IPoint[];
   UserReward: UserReward[];
 }
 
 interface Role {
   id: number;
   role: string;
-  users: User[];
+  users: IUser[];
 }
 
-interface Point {
+export interface IPoint {
   id: number;
   userId: number;
   amount: number; // Jumlah poin yang diperoleh, default diatur ke 0
@@ -53,7 +55,7 @@ export interface Event {
   userId: number;
   createdAt: Date;
   updatedAt: Date;
-  user: User[];
+  user: IUser[];
   location: Location[];
   Transaction: ITransaction[];
 }
@@ -67,7 +69,7 @@ export interface ITransaction {
   total: number;
   paymentProof: string;
   points: number;
-  createdAt: Date;
+  createdAt: any;
   updatedAt: Date;
 }
 
@@ -82,4 +84,27 @@ export interface Location {
 export interface ICategory {
   id: number;
   tittle: string;
+}
+
+export interface ITransaction {
+  id: number;
+  uuid: string;
+  userId: number;
+  eventId: number;
+  statusId: number;
+  qty: number;
+  paymentImg: string;
+  total: number;
+  pointsUsed: number;
+  createdAt: any;
+  updaetdAt: Date;
+  status: {
+    title: string;
+  };
+  event: {
+    title: string;
+  };
+  user: {
+    username: string;
+  };
 }

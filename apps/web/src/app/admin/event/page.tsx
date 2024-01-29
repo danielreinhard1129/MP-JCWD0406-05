@@ -2,9 +2,34 @@
 
 import { FaSearch } from 'react-icons/fa';
 import { Checkbox, Table } from 'flowbite-react';
-import Sidebar from '@/app/admin-dashboard/components/SideBar';
+
 import SidebarPromoter from '../components/SideBar';
+import { useAppSelector } from '@/lib/hooks';
+import axios from 'axios';
+import { baseUrl } from '@/app/baseUrl/baseUrl';
+import { useEffect, useState } from 'react';
+import { Event } from '@/types/types.user';
 const Events = () => {
+  const user = useAppSelector((state) => state.user.id);
+  const [eventData, setEventData] = useState<Event[]>([]);
+  console.log('usk', eventData);
+
+  const geteventbyuserid = async () => {
+    try {
+      const { data } = await axios.get(baseUrl + `/api/get-event-id/${user}`);
+      console.log('asdas', data.data);
+      setEventData(data.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    if (user) {
+      geteventbyuserid();
+    }
+  }, [user]);
+
   return (
     <div className="flex w-full">
       <SidebarPromoter activeLink={'events'} />
@@ -45,7 +70,7 @@ const Events = () => {
               <Table.HeadCell>Event</Table.HeadCell>
               <Table.HeadCell>Sold</Table.HeadCell>
               <Table.HeadCell>Gross</Table.HeadCell>
-              <Table.HeadCell>Status</Table.HeadCell>
+
               <Table.HeadCell>
                 <span className="sr-only">Edit</span>
               </Table.HeadCell>
@@ -55,58 +80,26 @@ const Events = () => {
                 <Table.Cell className="p-4">
                   <Checkbox />
                 </Table.Cell>
-                <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
-                  Taylor Swift Concert
-                </Table.Cell>
-                <Table.Cell>100/100</Table.Cell>
-                <Table.Cell>$299</Table.Cell>
-                <Table.Cell>Draft</Table.Cell>
-                <Table.Cell>
-                  <a
-                    href="#"
-                    className="font-medium text-[#ff4b00] hover:underline dark:text-cyan-500"
-                  >
-                    Edit
-                  </a>
-                </Table.Cell>
-              </Table.Row>
-              <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
-                <Table.Cell className="p-4">
-                  <Checkbox />
-                </Table.Cell>
-                <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
-                  Justin Bieber Concert
-                </Table.Cell>
-                <Table.Cell>0/100</Table.Cell>
-                <Table.Cell>$299</Table.Cell>
-                <Table.Cell>Draft</Table.Cell>
-                <Table.Cell>
-                  <a
-                    href="#"
-                    className="font-medium text-[#ff4b00] hover:underline dark:text-cyan-500"
-                  >
-                    Edit
-                  </a>
-                </Table.Cell>
-              </Table.Row>
-              <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
-                <Table.Cell className="p-4">
-                  <Checkbox />
-                </Table.Cell>
-                <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
-                  Harry Styles
-                </Table.Cell>
-                <Table.Cell>0/100</Table.Cell>
-                <Table.Cell>$299</Table.Cell>
-                <Table.Cell>Draft</Table.Cell>
-                <Table.Cell>
-                  <a
-                    href="#"
-                    className="font-medium text-[#ff4b00] hover:underline dark:text-cyan-500"
-                  >
-                    Edit
-                  </a>
-                </Table.Cell>
+                {eventData.map((item) => {
+                  return (
+                    <>
+                      <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
+                        {item.tittle}
+                      </Table.Cell>
+                      <Table.Cell>{item.booked}</Table.Cell>
+                      <Table.Cell>{item.price}</Table.Cell>
+
+                      <Table.Cell>
+                        <a
+                          href="#"
+                          className="font-medium text-[#ff4b00] hover:underline dark:text-cyan-500"
+                        >
+                          Edit
+                        </a>
+                      </Table.Cell>
+                    </>
+                  );
+                })}
               </Table.Row>
             </Table.Body>
           </Table>
